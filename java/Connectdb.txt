@@ -1,0 +1,55 @@
+import java.sql.*;
+/*
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+*/
+public class Connectdb{
+   static final String DB_URL = "jdbc:mysql://localhost:3306/test";
+   static final String USER = "root";
+   static final String PASS = "root";
+
+   public static void main(String[] args) 
+   {
+      // Open a connection
+	   
+	   System.out.println("Database Connection Program...");
+      try
+      {
+    	  Class.forName("com.mysql.jdbc.Driver");
+    	  Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+    	  System.out.println("Database Connected Successfully...");
+          Statement stmt = conn.createStatement();
+         // Execute a query
+         System.out.println("Inserting records into the table...");          
+         String sql = "INSERT INTO Student VALUES (25, 'Ravi')";
+         stmt.executeUpdate(sql);
+         /*   sql = "INSERT INTO Student VALUES (56, 'Aniket')";
+        stmt.executeUpdate(sql);
+         sql = "INSERT INTO Student VALUES (57, 'Shashank')";
+         stmt.executeUpdate(sql);
+         sql = "INSERT INTO Student VALUES(58, 'Shruti')";
+         stmt.executeUpdate(sql); */
+         System.out.println("Inserted records into the table...");  
+         String query = "SELECT * FROM Student ";
+         Statement st = conn.createStatement();
+         ResultSet rs = st.executeQuery(query);
+         while (rs.next())
+         {
+           int id = rs.getInt(1);
+           String Name = rs.getString(2);
+            
+           // print the results
+           System.out.format("%s, %s\n", id, Name);
+         }
+         st.close();
+       }
+      catch (Exception e)
+      {
+        System.err.println("Got an exception! ");
+        System.err.println(e.getMessage());
+      }
+    }
+  }
